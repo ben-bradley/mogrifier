@@ -1,4 +1,4 @@
-# Mogrifier
+# Mogrifier [![Build Status](https://secure.travis-ci.org/ben-bradley/mogrifier.png?branch=master)](https://travis-ci.org/ben-bradley/mogrifier)
 
 Mogrifier is a simple type transmogrification library.  It allows you to define simple models/schemas and use them to transmogrify values to the types defined in your model.
 
