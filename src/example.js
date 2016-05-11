@@ -17,10 +17,12 @@ const input = {
     { name: 'Tripod', legs: '3' },
     { name: 'Monopod', legs: true },
     { name: 'Hovercat', legs: false }
-  ]
+  ],
+  notInModel: 'hahaha!' // <- is removed if { strict: true }
 };
 
 let mogrified = mogrify(model, input);
+let strictlyMogrified = mogrify(model, input, { strict: true });
 
 console.log('before -', input);
-console.log('after -', mogrifyd);
+console.log('after -', mogrified);

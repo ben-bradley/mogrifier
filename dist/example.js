@@ -13,10 +13,12 @@ var input = {
   id: 123456789,
   name: { first: 'Pat', last: 'Jackson' },
   tags: ['foo', 'bar'],
-  cats: [{ name: 'Tripod', legs: '3' }, { name: 'Monopod', legs: true }, { name: 'Hovercat', legs: false }]
+  cats: [{ name: 'Tripod', legs: '3' }, { name: 'Monopod', legs: true }, { name: 'Hovercat', legs: false }],
+  notInModel: 'hahaha!' // <- is removed if { strict: true }
 };
 
 var mogrified = (0, _.mogrify)(model, input);
+var strictlyMogrified = (0, _.mogrify)(model, input, { strict: true });
 
 console.log('before -', input);
-console.log('after -', mogrifyd);
+console.log('after -', mogrified);
