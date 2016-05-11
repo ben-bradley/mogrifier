@@ -1,6 +1,6 @@
 {
   "name": "mogrifier",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Transmogrifying input based on a defined model",
   "main": "index.js",
   "dependencies": {
