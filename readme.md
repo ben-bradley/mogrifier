@@ -1,4 +1,4 @@
-# Mogrifier
+# Mogrifier [![Build Status](https://secure.travis-ci.org/ben-bradley/mogrifier.png?branch=master)](https://travis-ci.org/ben-bradley/mogrifier)
 
 Mogrifier is a simple type transmogrification library.  It allows you to define simple models/schemas and use them to transmogrify values to the types defined in your model.
 
@@ -160,4 +160,5 @@ console.log(mogrified); // <- { id: '123456789', foo: 'foo-bar' }
 
 ## Version
 
+- 0.1.1 - Internal refactor to simplify `mogrifyArray()`
 - 0.1.0 - Initial release
