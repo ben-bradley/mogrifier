@@ -160,4 +160,5 @@ console.log(mogrified); // <- { id: '123456789', foo: 'foo-bar' }
 
 ## Version
 
+- 0.1.1 - Internal refactor to simplify `mogrifyArray()`
 - 0.1.0 - Initial release
