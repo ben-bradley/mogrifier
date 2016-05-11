@@ -38,10 +38,12 @@ after - { id: 'abc123',
 */
 ```
 
-## `mogrify(model, input)`
+## `mogrify(model, input[, options])`
 
-- `model` - Function, Object, Array - The model is the definition for how to mogrify the `input` and which type you use depends on the input you are working with.
-- `input` - Any - The `input` is the value that you are trying to mogrify. Typically, this is a JSON Object or Array, but it can be a simple value as well.
+- `model` - Function, Object, Array, required - The model is the definition for how to mogrify the `input` and which type you use depends on the input you are working with.
+- `input` - Any, required - The `input` is the value that you are trying to mogrify. Typically, this is a JSON Object or Array, but it can be a simple value as well.
+- `options` - Object, optional - Allows for customizing the behavior of the mogrification
+  - `strict` - Boolean, default = `false` - In strict mode, mogrifier will strip out any properties in the `input` that are not in the `model`
 
 ## Defining a Model
 
@@ -159,7 +161,7 @@ console.log(mogrified); // <- { id: '123456789', foo: 'foo-bar' }
 ```
 
 ## Version
-
+- 0.2.0 - added options to `mogrify(model, input, options)`
 - 0.1.2 - `npm publish` on master
 - 0.1.1 - Internal refactor to simplify `mogrifyArray()`
 - 0.1.0 - Initial release

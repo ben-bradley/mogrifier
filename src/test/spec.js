@@ -88,9 +88,9 @@ describe('Mogrifier', () => {
     });
 
     it('Strings', () => {
-      let mogrifyd = mogrify([String], items);
+      let mogrified = mogrify([String], items);
 
-      mogrifyd.forEach((value) => makeSure(value).is.a.String);
+      mogrified.forEach((value) => makeSure(value).is.a.String);
 
       let assertions = [
         'string', '', '1', '0', 'true', 'false',
@@ -99,13 +99,13 @@ describe('Mogrifier', () => {
         new Date(0).toString()
       ];
 
-      assertions.forEach((a, i) => assert.equal(mogrifyd[i], a));
+      assertions.forEach((a, i) => assert.equal(mogrified[i], a));
     });
 
     it('Numbers', () => {
-      let mogrifyd = mogrify([Number], items);
+      let mogrified = mogrify([Number], items);
 
-      mogrifyd.forEach((value) => makeSure(value).is.a.Number);
+      mogrified.forEach((value) => makeSure(value).is.a.Number);
 
       let assertions = [
         NaN, 0, 1, 0, NaN, NaN,
@@ -114,13 +114,13 @@ describe('Mogrifier', () => {
         0
       ];
 
-      assertions.forEach((a, i) => ((isNaN(a)) ? true : assert.equal(mogrifyd[i], a)));
+      assertions.forEach((a, i) => ((isNaN(a)) ? true : assert.equal(mogrified[i], a)));
     });
 
     it('Booleans', () => {
-      let mogrifyd = mogrify([Boolean], items);
+      let mogrified = mogrify([Boolean], items);
 
-      mogrifyd.forEach((value) => makeSure(value).is.a.Boolean);
+      mogrified.forEach((value) => makeSure(value).is.a.Boolean);
 
       let assertions = [
         true, false, true, true, true, false,
@@ -129,13 +129,13 @@ describe('Mogrifier', () => {
         true
       ];
 
-      assertions.forEach((a, i) => ((isNaN(a)) ? true : assert.equal(mogrifyd[i], a)));
+      assertions.forEach((a, i) => ((isNaN(a)) ? true : assert.equal(mogrified[i], a)));
     });
 
     it('Dates', () => {
-      let mogrifyd = mogrify([Date], items);
+      let mogrified = mogrify([Date], items);
 
-      mogrifyd.forEach((value) => ((isNaN(value.valueOf())) ? true : makeSure(value).is.a.Date));
+      mogrified.forEach((value) => ((isNaN(value.valueOf())) ? true : makeSure(value).is.a.Date));
 
       let assertions = [
         null, null, new Date('1'), new Date('0'), null, null,
@@ -144,7 +144,7 @@ describe('Mogrifier', () => {
         new Date(0)
       ];
 
-      assertions.forEach((a, i) => ((a === null) ? true : assert.equal(mogrifyd[i].toString(), a.toString())));
+      assertions.forEach((a, i) => ((a === null) ? true : assert.equal(mogrified[i].toString(), a.toString())));
     });
 
   }); // end flat array mogrification
@@ -163,12 +163,12 @@ describe('Mogrifier', () => {
 
     inputs.forEach((input, i) => {
       it('should mogrify object input patter #' + i, () => {
-        let mogrifyd = (mogrify(model, input));
+        let mogrified = (mogrify(model, input));
 
-        makeSure(mogrifyd.str).is.a.String;
-        makeSure(mogrifyd.num).is.a.Number;
-        makeSure(mogrifyd.bln).is.a.Boolean;
-        makeSure(mogrifyd.dte).is.a.Date;
+        makeSure(mogrified.str).is.a.String;
+        makeSure(mogrified.num).is.a.Number;
+        makeSure(mogrified.bln).is.a.Boolean;
+        makeSure(mogrified.dte).is.a.Date;
       });
     });
 
@@ -196,17 +196,17 @@ describe('Mogrifier', () => {
       }
     };
 
-    let mogrifyd = mogrify(model, input);
+    let mogrified = mogrify(model, input);
 
-    makeSure(mogrifyd.str).is.a.String;
-    makeSure(mogrifyd.obj).is.an.Object;
-    makeSure(mogrifyd.obj.num).is.a.Number;
-    makeSure(mogrifyd.obj.otherObj).is.an.Object;
-    makeSure(mogrifyd.obj.otherObj.bln).is.a.Boolean;
+    makeSure(mogrified.str).is.a.String;
+    makeSure(mogrified.obj).is.an.Object;
+    makeSure(mogrified.obj.num).is.a.Number;
+    makeSure(mogrified.obj.otherObj).is.an.Object;
+    makeSure(mogrified.obj.otherObj.bln).is.a.Boolean;
 
-    assert.equal(mogrifyd.str, 'true');
-    assert.equal(mogrifyd.obj.num, 1);
-    assert.equal(mogrifyd.obj.otherObj.bln, false);
+    assert.equal(mogrified.str, 'true');
+    assert.equal(mogrified.obj.num, 1);
+    assert.equal(mogrified.obj.otherObj.bln, false);
 
   }); // end nested object mogrification
 
@@ -222,21 +222,24 @@ describe('Mogrifier', () => {
       str: true,
       num: '1',
       bln: 0,
-      dte: 0
+      dte: 0,
+      dontDeleteMe: 'dontDeleteMe'
     }, {
       str: 0,
       num: true,
       bln: 'true',
-      dte: new Date().toJSON()
+      dte: new Date().toJSON(),
+      dontDeleteMe: 'dontDeleteMe'
     }];
 
-    let mogrifyd = mogrify(model, input);
+    let mogrified = mogrify(model, input);
 
-    mogrifyd.forEach((o, i) => {
+    mogrified.forEach((o, i) => {
       makeSure(o.str).is.a.String;
       makeSure(o.num).is.a.Number;
       makeSure(o.bln).is.a.Boolean;
       makeSure(o.dte).is.a.Date;
+      makeSure(o.dontDeleteMe).is.a.String;
     });
 
   }); // end objects in arrays
@@ -247,15 +250,41 @@ describe('Mogrifier', () => {
     };
 
     let input = {
-      cus: 'foo'
+      cus: 'foo',
+      dontDeleteMe: 'dontDeleteMe'
     };
 
-    let mogrifyd = mogrify(model, input);
+    let mogrified = mogrify(model, input);
 
-    makeSure(mogrifyd.cus).is.a.String;
+    makeSure(mogrified.cus).is.a.String;
+    makeSure(mogrified.dontDeleteMe).is.a.String;
 
-    assert.equal(mogrifyd.cus, 'foo-bar');
-  });
+    assert.equal(mogrified.cus, 'foo-bar');
+    assert.equal(mogrified.dontDeleteMe, 'dontDeleteMe');
+  }); // end custom function test
+
+  it('should strip undefined properties from input when strict = true', () => {
+    let model = {
+      str: String,
+      num: Number,
+      bln: Boolean,
+      dte: Date
+    };
+
+    let input = {
+      str: true,
+      num: '1',
+      bln: 0,
+      dte: 0,
+      deleteMe: 'deleteMe'
+    };
+
+    let options = { strict: true };
+
+    let mogrified = mogrify(model, input, options);
+
+    makeSure(mogrified.deleteMe).is.Undefined;
+  }); // end custom test
 
 
 });

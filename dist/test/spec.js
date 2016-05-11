@@ -98,58 +98,58 @@ describe('Mogrifier', function () {
     });
 
     it('Strings', function () {
-      var mogrifyd = (0, _.mogrify)([String], items);
+      var mogrified = (0, _.mogrify)([String], items);
 
-      mogrifyd.forEach(function (value) {
+      mogrified.forEach(function (value) {
         return (0, _makeSure2.default)(value).is.a.String;
       });
 
       var assertions = ['string', '', '1', '0', 'true', 'false', '1', '0', 'true', 'false', new Date(0).toString()];
 
       assertions.forEach(function (a, i) {
-        return _assert2.default.equal(mogrifyd[i], a);
+        return _assert2.default.equal(mogrified[i], a);
       });
     });
 
     it('Numbers', function () {
-      var mogrifyd = (0, _.mogrify)([Number], items);
+      var mogrified = (0, _.mogrify)([Number], items);
 
-      mogrifyd.forEach(function (value) {
+      mogrified.forEach(function (value) {
         return (0, _makeSure2.default)(value).is.a.Number;
       });
 
       var assertions = [NaN, 0, 1, 0, NaN, NaN, 1, 0, 1, 0, 0];
 
       assertions.forEach(function (a, i) {
-        return isNaN(a) ? true : _assert2.default.equal(mogrifyd[i], a);
+        return isNaN(a) ? true : _assert2.default.equal(mogrified[i], a);
       });
     });
 
     it('Booleans', function () {
-      var mogrifyd = (0, _.mogrify)([Boolean], items);
+      var mogrified = (0, _.mogrify)([Boolean], items);
 
-      mogrifyd.forEach(function (value) {
+      mogrified.forEach(function (value) {
         return (0, _makeSure2.default)(value).is.a.Boolean;
       });
 
       var assertions = [true, false, true, true, true, false, true, false, true, false, true];
 
       assertions.forEach(function (a, i) {
-        return isNaN(a) ? true : _assert2.default.equal(mogrifyd[i], a);
+        return isNaN(a) ? true : _assert2.default.equal(mogrified[i], a);
       });
     });
 
     it('Dates', function () {
-      var mogrifyd = (0, _.mogrify)([Date], items);
+      var mogrified = (0, _.mogrify)([Date], items);
 
-      mogrifyd.forEach(function (value) {
+      mogrified.forEach(function (value) {
         return isNaN(value.valueOf()) ? true : (0, _makeSure2.default)(value).is.a.Date;
       });
 
       var assertions = [null, null, new Date('1'), new Date('0'), null, null, new Date(0), new Date(0), new Date(0), new Date(0), new Date(0)];
 
       assertions.forEach(function (a, i) {
-        return a === null ? true : _assert2.default.equal(mogrifyd[i].toString(), a.toString());
+        return a === null ? true : _assert2.default.equal(mogrified[i].toString(), a.toString());
       });
     });
   }); // end flat array mogrification
@@ -162,12 +162,12 @@ describe('Mogrifier', function () {
 
     inputs.forEach(function (input, i) {
       it('should mogrify object input patter #' + i, function () {
-        var mogrifyd = (0, _.mogrify)(model, input);
+        var mogrified = (0, _.mogrify)(model, input);
 
-        (0, _makeSure2.default)(mogrifyd.str).is.a.String;
-        (0, _makeSure2.default)(mogrifyd.num).is.a.Number;
-        (0, _makeSure2.default)(mogrifyd.bln).is.a.Boolean;
-        (0, _makeSure2.default)(mogrifyd.dte).is.a.Date;
+        (0, _makeSure2.default)(mogrified.str).is.a.String;
+        (0, _makeSure2.default)(mogrified.num).is.a.Number;
+        (0, _makeSure2.default)(mogrified.bln).is.a.Boolean;
+        (0, _makeSure2.default)(mogrified.dte).is.a.Date;
       });
     });
   }); // end simple object mogrification
@@ -194,17 +194,17 @@ describe('Mogrifier', function () {
       }
     };
 
-    var mogrifyd = (0, _.mogrify)(model, input);
+    var mogrified = (0, _.mogrify)(model, input);
 
-    (0, _makeSure2.default)(mogrifyd.str).is.a.String;
-    (0, _makeSure2.default)(mogrifyd.obj).is.an.Object;
-    (0, _makeSure2.default)(mogrifyd.obj.num).is.a.Number;
-    (0, _makeSure2.default)(mogrifyd.obj.otherObj).is.an.Object;
-    (0, _makeSure2.default)(mogrifyd.obj.otherObj.bln).is.a.Boolean;
+    (0, _makeSure2.default)(mogrified.str).is.a.String;
+    (0, _makeSure2.default)(mogrified.obj).is.an.Object;
+    (0, _makeSure2.default)(mogrified.obj.num).is.a.Number;
+    (0, _makeSure2.default)(mogrified.obj.otherObj).is.an.Object;
+    (0, _makeSure2.default)(mogrified.obj.otherObj.bln).is.a.Boolean;
 
-    _assert2.default.equal(mogrifyd.str, 'true');
-    _assert2.default.equal(mogrifyd.obj.num, 1);
-    _assert2.default.equal(mogrifyd.obj.otherObj.bln, false);
+    _assert2.default.equal(mogrified.str, 'true');
+    _assert2.default.equal(mogrified.obj.num, 1);
+    _assert2.default.equal(mogrified.obj.otherObj.bln, false);
   }); // end nested object mogrification
 
   it('an Object within an Array should mogrify based on the model', function () {
@@ -219,21 +219,24 @@ describe('Mogrifier', function () {
       str: true,
       num: '1',
       bln: 0,
-      dte: 0
+      dte: 0,
+      dontDeleteMe: 'dontDeleteMe'
     }, {
       str: 0,
       num: true,
       bln: 'true',
-      dte: new Date().toJSON()
+      dte: new Date().toJSON(),
+      dontDeleteMe: 'dontDeleteMe'
     }];
 
-    var mogrifyd = (0, _.mogrify)(model, input);
+    var mogrified = (0, _.mogrify)(model, input);
 
-    mogrifyd.forEach(function (o, i) {
+    mogrified.forEach(function (o, i) {
       (0, _makeSure2.default)(o.str).is.a.String;
       (0, _makeSure2.default)(o.num).is.a.Number;
       (0, _makeSure2.default)(o.bln).is.a.Boolean;
       (0, _makeSure2.default)(o.dte).is.a.Date;
+      (0, _makeSure2.default)(o.dontDeleteMe).is.a.String;
     });
   }); // end objects in arrays
 
@@ -245,13 +248,39 @@ describe('Mogrifier', function () {
     };
 
     var input = {
-      cus: 'foo'
+      cus: 'foo',
+      dontDeleteMe: 'dontDeleteMe'
     };
 
-    var mogrifyd = (0, _.mogrify)(model, input);
+    var mogrified = (0, _.mogrify)(model, input);
 
-    (0, _makeSure2.default)(mogrifyd.cus).is.a.String;
+    (0, _makeSure2.default)(mogrified.cus).is.a.String;
+    (0, _makeSure2.default)(mogrified.dontDeleteMe).is.a.String;
 
-    _assert2.default.equal(mogrifyd.cus, 'foo-bar');
-  });
+    _assert2.default.equal(mogrified.cus, 'foo-bar');
+    _assert2.default.equal(mogrified.dontDeleteMe, 'dontDeleteMe');
+  }); // end custom function test
+
+  it('should strip undefined properties from input when strict = true', function () {
+    var model = {
+      str: String,
+      num: Number,
+      bln: Boolean,
+      dte: Date
+    };
+
+    var input = {
+      str: true,
+      num: '1',
+      bln: 0,
+      dte: 0,
+      deleteMe: 'deleteMe'
+    };
+
+    var options = { strict: true };
+
+    var mogrified = (0, _.mogrify)(model, input, options);
+
+    (0, _makeSure2.default)(mogrified.deleteMe).is.Undefined;
+  }); // end custom test
 });
